@@ -1,7 +1,7 @@
 const fs = require("fs");
 const COLORS = require("./constants/colors");
 
-const { NPM_RC_CONTENT, NPM_USR_RC_CONTENT } = require("./constants/messages");
+const { NPM_USR_RC_CONTENT } = require("./constants/messages");
 const { getOSBasedNPMRCPath } = require("./helpers/index.js");
 
 function manageNPMRC(token, url, scope) {
@@ -42,12 +42,12 @@ function cleanNPMRC(path, scope, domain) {
   const data = fs.readFileSync(path, "utf8");
 
   // define the regex patterns
-  const regexPat1 = new RegExp(`@${scope}:registry=`, "g");
-  const regexPat2 = new RegExp(`${domain}/:_authToken=`, "g");
+  const regexPat1 = new RegExp(`@${scope}:registry=.*`, "g");
+  const regexPat2 = new RegExp(`//${domain}/:_authToken=.*`, "g");
 
   if (regexPat1.test(data) && regexPat2.test(data)) {
-    const updatedData = data.replace(pattern1, "").replace(pattern2, "");
-    fs.writeFileSync(filePath, updatedData);
+    const updatedData = data.replace(regexPat1, "").replace(regexPat2, "");
+    fs.writeFileSync(path, updatedData);
   }
 }
 
