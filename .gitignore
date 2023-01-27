@@ -1,0 +1,4 @@
+
+# Ignoring the .env.personal because it contains confidential information.
+.env.personal
+private-npm-setup-*
