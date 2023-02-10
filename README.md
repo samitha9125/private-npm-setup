@@ -23,3 +23,11 @@ The second time you run the command, you will successfully connect to your npm r
 ```
 npx private-npm-repo && yarn install && npx pod-install
 ```
+
+# For CI
+
+For now, this package does not support project tokens. Thus, you may have to use your private access token in the CI if you can expose the token safely. Once it is exposed, you may configured the setup and install the private npm packages. When the CI process is completed, it is safe to remove your token entry. For that, you may execute the below code.
+
+```
+npx private-npm-setup removeEntry=true
+```

@@ -4,15 +4,21 @@ const COLORS = require("./constants/colors");
 const { NPM_USR_RC_CONTENT } = require("./constants/messages");
 const { getOSBasedNPMRCPath } = require("./helpers/index.js");
 
-function manageNPMRC(token, url, scope) {
+function manageNPMRC(token, url, scope, remove = false) {
   const domain = url.replace(/^https?:\/\//, "");
-  manageUserLevelNPMRC(token, scope, url, domain);
+  manageUserLevelNPMRC(token, scope, url, domain, remove);
 }
 
-function manageUserLevelNPMRC(token, scope, url, domain) {
+function manageUserLevelNPMRC(token, scope, url, domain, remove) {
   const npmrcPath = getOSBasedNPMRCPath();
   if (!fs.existsSync(npmrcPath)) {
     fs.writeFileSync(npmrcPath, "", "utf8");
+  }
+
+  if(remove) {
+    // Forcing just to remove the entry
+    cleanNPMRC(npmrcPath, scope, domain);
+    return null;
   }
 
   try {
