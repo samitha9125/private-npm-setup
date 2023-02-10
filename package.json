@@ -1,6 +1,6 @@
 {
   "name": "private-npm-setup",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Simple package to setup the project to access private npm repository",
   "main": "index.js",
   "bin": "index.js",
