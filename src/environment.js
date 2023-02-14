@@ -20,8 +20,9 @@ function manageEnvFile() {
 }
 
 function validateFields() {
+  const isWin = process.platform === "win32";
   const envContent = fs.readFileSync(CONSTANTS.envFileName, "utf8");
-  const ls = envContent.split("\n");
+  const ls = envContent.split(isWin? "\r\n":"\n");
   const env = {};
   for (const l of ls) {
     const [key, val] = l.split("=");
