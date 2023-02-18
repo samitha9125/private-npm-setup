@@ -10,11 +10,12 @@ function remove(fields, PRU, spinner) {
 }
 
 async function main(program, spinner) {
+  const path = process.cwd();
   const options = program.opts();
 
   // Validating env.personal file fields.
-  manageEnvFile();
-  const fields = validateFields();
+  manageEnvFile(path);
+  const fields = validateFields(path);
   const PRU = fields.PRU.replace(/\/$/, "");
 
   if (options.remove) {
@@ -22,7 +23,7 @@ async function main(program, spinner) {
     return;
   }
 
-  validateGitIgnore();
+  validateGitIgnore(path);
   const { token } = await manageToken(fields.U, fields.PAT, PRU);
   manageNPMRC(token, PRU, fields.S, false);
   spinner.succeed("Setup successful");

@@ -20,7 +20,7 @@ async function manageToken(un, pat, reg) {
       return response.data;
     } else {
       logger.error(ERRORS.GENERAL_ERROR);
-      logger.info(response.data);
+      logger.info(JSON.stringify(response.data));
       process.exit(1);
     }
   } catch (error) {

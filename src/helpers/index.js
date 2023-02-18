@@ -8,8 +8,4 @@ function getOSBasedNPMRCPath() {
   return join(homedir().replace(/\/$/, ""), "/.npmrc");
 }
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-export { getOSBasedNPMRCPath, sleep };
+export { getOSBasedNPMRCPath };

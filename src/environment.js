@@ -4,17 +4,19 @@ import Const from "./constants/constants.js";
 import { ERRORS, INFO } from "./constants/messages.js";
 import logger from "./helpers/logger.js";
 
-function manageEnvFile() {
-  if (!existsSync(Const.envFileName)) {
+function manageEnvFile(path) {
+  const fullPath = `${path}/${Const.envFileName}`;
+  if (!existsSync(fullPath)) {
     logger.warn(`'${Const.envFileName}' ${ERRORS.ENV_MISSING}`);
-    writeFileSync(Const.envFileName, Const.fields, "utf8");
+    writeFileSync(fullPath, Const.fields, "utf8");
     logger.warn(INFO.ENV_INFO);
     process.exit(0);
   }
 }
 
-function validateFields() {
-  dotenv.config({ path: `./${Const.envFileName}` });
+function validateFields(path) {
+  const fullPath = `${path}/${Const.envFileName}`;
+  dotenv.config({ path: fullPath });
   if (
     process.env.USERNAME &&
     process.env.PERSONAL_ACCESS_TOKEN &&

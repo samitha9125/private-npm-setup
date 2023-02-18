@@ -2,25 +2,26 @@ import { existsSync, readFileSync, appendFileSync } from "fs";
 import Const from "./constants/constants.js";
 import { INFO } from "./constants/messages.js";
 
-function validateGitIgnore() {
-  if (!existsSync(".gitignore")) {
-    addLines();
+function validateGitIgnore(path) {
+  const fullPath = `${path}/.gitignore`;
+  if (!existsSync(fullPath)) {
+    addLines(fullPath);
   } else {
-    const gitignoreContent = readFileSync(".gitignore", "utf8");
+    const gitignoreContent = readFileSync(fullPath, "utf8");
     const lines = gitignoreContent.split("\n");
     const isIncluded = lines.includes(Const.envFileName);
     if (!isIncluded) {
-      addLines();
+      addLines(fullPath);
     }
   }
 }
 
-function addLines() {
-  appendFileSync(".gitignore", "\n", "utf8");
-  appendFileSync(".gitignore", INFO.GIT_IGNORE_MSG, "utf8");
-  appendFileSync(".gitignore", "\n", "utf8");
-  appendFileSync(".gitignore", Const.envFileName, "utf8");
-  appendFileSync(".gitignore", "\n", "utf8");
+function addLines(path) {
+  appendFileSync(path, "\n", "utf8");
+  appendFileSync(path, INFO.GIT_IGNORE_MSG, "utf8");
+  appendFileSync(path, "\n", "utf8");
+  appendFileSync(path, Const.envFileName, "utf8");
+  appendFileSync(path, "\n", "utf8");
 }
 
 export default validateGitIgnore;

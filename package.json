@@ -10,7 +10,7 @@
   "scripts": {
     "deploy": "npm version patch && npm pack && npm publish",
     "start": "node cli.js",
-    "test": "ava"
+    "test": "c8 ava"
   },
   "dependencies": {
     "axios": "^1.2.2",
@@ -23,13 +23,15 @@
   "devDependencies": {
     "ava": "^5.2.0",
     "axios-mock-adapter": "^1.21.2",
+    "c8": "^7.13.0",
     "execa": "^7.0.0",
     "sinon": "^15.0.1"
   },
   "ava": {
     "files": [
       "tests/**/*",
-      "!tests/setup"
+      "!tests/setup",
+      "!tests/environment"
     ]
   }
 }
