@@ -1,0 +1,6 @@
+{
+  "name": "private-npm-setup-example",
+  "scripts": {
+    "start": "node ../cli.js"
+  }
+}

@@ -1,4 +1,5 @@
 import { existsSync, writeFileSync, readFileSync } from "fs";
+import dotenv from "dotenv";
 import Const from "./constants/constants.js";
 import { ERRORS, INFO } from "./constants/messages.js";
 import logger from "./helpers/logger.js";
@@ -8,30 +9,27 @@ function manageEnvFile() {
     logger.warn(`'${Const.envFileName}' ${ERRORS.ENV_MISSING}`);
     writeFileSync(Const.envFileName, Const.fields, "utf8");
     logger.warn(INFO.ENV_INFO);
-    process.exit(1);
+    process.exit(0);
   }
 }
 
 function validateFields() {
-  const isWin = process.platform === "win32";
-  const envContent = readFileSync(Const.envFileName, "utf8");
-  const ls = envContent.split(isWin ? "\r\n" : "\n");
-  const env = {};
-  for (const l of ls) {
-    const [key, val] = l.split("=");
-    if (key) {
-      const k = key
-        .split("_")
-        .map((p) => p[0])
-        .join("");
-      env[k] = val;
-    }
+  dotenv.config({ path: `./${Const.envFileName}` });
+  if (
+    process.env.USERNAME &&
+    process.env.PERSONAL_ACCESS_TOKEN &&
+    process.env.PRIVATE_REGISTRY_URL &&
+    process.env.SCOPE
+  ) {
+    return {
+      U: process.env.USERNAME,
+      PAT: process.env.PERSONAL_ACCESS_TOKEN,
+      PRU: process.env.PRIVATE_REGISTRY_URL,
+      S: process.env.SCOPE,
+    };
   }
-  if (!env.U || !env.PAT || !env.PRU) {
-    logger.error(ERRORS.ENV_EMPTY);
-    process.exit(1);
-  }
-  return env;
+  logger.error(ERRORS.ENV_EMPTY);
+  process.exit(1);
 }
 
 export { manageEnvFile, validateFields };

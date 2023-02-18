@@ -8,14 +8,28 @@
     "private-npm-setup": "cli.js"
   },
   "scripts": {
+    "deploy": "npm version patch && npm pack && npm publish",
     "start": "node cli.js",
-    "deploy": "npm version patch && npm pack && npm publish"
+    "test": "ava"
   },
   "dependencies": {
     "axios": "^1.2.2",
     "commander": "^10.0.0",
+    "dotenv": "^16.0.3",
     "ora": "^6.1.2"
   },
   "author": "Samitha Nanayakkara",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^5.2.0",
+    "axios-mock-adapter": "^1.21.2",
+    "execa": "^7.0.0",
+    "sinon": "^15.0.1"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*",
+      "!tests/setup"
+    ]
+  }
 }

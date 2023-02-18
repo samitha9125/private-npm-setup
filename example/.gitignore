@@ -3,6 +3,4 @@
 .env.personal
 private-npm-setup-*
 .npmrc
-node_modules/
-.DS_Store
-.vscode/
+node-modules
