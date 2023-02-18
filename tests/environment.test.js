@@ -8,6 +8,7 @@ import { manageEnvFile, validateFields } from "../src/environment.js";
 import { removeEnvPersonal } from "./setup/index.js";
 
 let exitStub = sinon.stub(process, "exit");
+const testEnvPath = `${process.cwd()}/tests/environment`;
 
 test.beforeEach(() => {
   exitStub.restore();
@@ -16,28 +17,28 @@ test.beforeEach(() => {
 test.serial(
   "manageEnvFile function test - When .env.personal is missing.",
   async (t) => {
-    await removeEnvPersonal();
+    await removeEnvPersonal(testEnvPath);
     exitStub = sinon.stub(process, "exit");
-    manageEnvFile();
+    manageEnvFile(testEnvPath);
     t.pass(exitStub.calledOnceWith(0) && fs.existsSync(".env.personal"));
   }
 );
 
 test.serial("validateFields function test - Empty", async (t) => {
   // Setting the fresh .env.personal file.
-  await removeEnvPersonal();
+  await removeEnvPersonal(testEnvPath);
   await execa("yarn", ["start"]);
 
   // Without completing the file, executing the package again.
   exitStub = sinon.stub(process, "exit");
-  validateFields();
+  validateFields(testEnvPath);
   // Check that the command exited with code 1
   t.pass(exitStub.calledOnceWith(1));
 });
 
 test.serial("validateFields function test - Not Empty", async (t) => {
   // Setting the fresh .env.personal file.
-  await removeEnvPersonal();
+  await removeEnvPersonal(testEnvPath);
   await execa("yarn", ["start"]);
 
   // Adding new values after dotenv config.
@@ -48,7 +49,7 @@ test.serial("validateFields function test - Not Empty", async (t) => {
   process.env.SCOPE = "mock_scope";
 
   // Actual result
-  const actual = validateFields();
+  const actual = validateFields(testEnvPath);
   const expected = {
     U: "mock_username",
     PAT: "mock_token",
