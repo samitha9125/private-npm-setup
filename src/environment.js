@@ -1,28 +1,21 @@
-const fs = require("fs");
-const CONSTANTS = require("./constants/constants");
-const COLORS = require("./constants/colors");
-const { ERRORS, INFO } = require("./constants/messages");
+import { existsSync, writeFileSync, readFileSync } from "fs";
+import Const from "./constants/constants.js";
+import { ERRORS, INFO } from "./constants/messages.js";
+import logger from "./helpers/logger.js";
 
 function manageEnvFile() {
-  if (!fs.existsSync(CONSTANTS.envFileName)) {
-    console.log(
-      COLORS.Yellow,
-      `'${CONSTANTS.envFileName}' ${ERRORS.ENV_MISSING}`
-    );
-    fs.writeFileSync(
-      CONSTANTS.envFileName,
-      `${CONSTANTS.username}=\n${CONSTANTS.pToken}=\n${CONSTANTS.regUrl}=\n${CONSTANTS.scope}=\n`,
-      "utf8"
-    );
-    console.log(COLORS.Yellow, INFO.ENV_INFO);
+  if (!existsSync(Const.envFileName)) {
+    logger.warn(`'${Const.envFileName}' ${ERRORS.ENV_MISSING}`);
+    writeFileSync(Const.envFileName, Const.fields, "utf8");
+    logger.warn(INFO.ENV_INFO);
     process.exit(1);
   }
 }
 
 function validateFields() {
   const isWin = process.platform === "win32";
-  const envContent = fs.readFileSync(CONSTANTS.envFileName, "utf8");
-  const ls = envContent.split(isWin? "\r\n":"\n");
+  const envContent = readFileSync(Const.envFileName, "utf8");
+  const ls = envContent.split(isWin ? "\r\n" : "\n");
   const env = {};
   for (const l of ls) {
     const [key, val] = l.split("=");
@@ -34,14 +27,11 @@ function validateFields() {
       env[k] = val;
     }
   }
-  if (!env.GU || !env.GPAT || !env.PRU) {
-    console.log(COLORS.Red, ERRORS.ENV_EMPTY);
+  if (!env.U || !env.PAT || !env.PRU) {
+    logger.error(ERRORS.ENV_EMPTY);
     process.exit(1);
   }
   return env;
 }
 
-module.exports = {
-  manageEnvFile,
-  validateFields,
-};
+export { manageEnvFile, validateFields };

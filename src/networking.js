@@ -1,6 +1,6 @@
-const axios = require("axios");
-const COLORS = require("./constants/colors");
-const { ERRORS } = require("./constants/messages");
+import axios from "axios";
+import { ERRORS } from "./constants/messages.js";
+import logger from "./helpers/logger.js";
 
 async function manageToken(un, pat, reg) {
   try {
@@ -19,18 +19,18 @@ async function manageToken(un, pat, reg) {
     if (response.data["ok"]?.length > 0) {
       return response.data;
     } else {
-      console.log(COLORS.Red, ERRORS.GENERAL_ERROR);
-      console.log(response.data);
+      logger.error(ERRORS.GENERAL_ERROR);
+      logger.info(response.data);
       process.exit(1);
     }
   } catch (error) {
     if (error.response.status === 500) {
-      console.log(COLORS.Red, ERRORS.NETWORK_ERROR);
+      logger.error(ERRORS.NETWORK_ERROR);
     }
     const e = error.response;
-    console.log(COLORS.Red, `API error: ${e.statusText}. Status: ${e.status}`);
+    logger.error(`API error: ${e.statusText}. Status: ${e.status}`);
     process.exit(1);
   }
 }
 
-module.exports = manageToken;
+export default manageToken;

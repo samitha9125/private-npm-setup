@@ -8,4 +8,5 @@ const COLORS = {
   Cyan: "\x1b[36m",
   White: "\x1b[37m",
 };
-module.exports = COLORS;
+
+export default COLORS;

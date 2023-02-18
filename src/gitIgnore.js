@@ -1,14 +1,14 @@
-const fs = require("fs");
-const CONSTANTS = require("./constants/constants");
-const { INFO } = require("./constants/messages");
+import { existsSync, readFileSync, appendFileSync } from "fs";
+import Const from "./constants/constants.js";
+import { INFO } from "./constants/messages.js";
 
 function validateGitIgnore() {
-  if (!fs.existsSync(".gitignore")) {
+  if (!existsSync(".gitignore")) {
     addLines();
   } else {
-    const gitignoreContent = fs.readFileSync(".gitignore", "utf8");
+    const gitignoreContent = readFileSync(".gitignore", "utf8");
     const lines = gitignoreContent.split("\n");
-    const isIncluded = lines.includes(".env.personal");
+    const isIncluded = lines.includes(Const.envFileName);
     if (!isIncluded) {
       addLines();
     }
@@ -16,13 +16,11 @@ function validateGitIgnore() {
 }
 
 function addLines() {
-  fs.appendFileSync(".gitignore", "\n", "utf8");
-  fs.appendFileSync(".gitignore", INFO.GIT_IGNORE_MSG, "utf8");
-  fs.appendFileSync(".gitignore", "\n", "utf8");
-  fs.appendFileSync(".gitignore", CONSTANTS.envFileName, "utf8");
-  fs.appendFileSync(".gitignore", "\n", "utf8");
-  fs.appendFileSync(".gitignore", CONSTANTS.npmrcFileName, "utf8");
-  fs.appendFileSync(".gitignore", "\n", "utf8");
+  appendFileSync(".gitignore", "\n", "utf8");
+  appendFileSync(".gitignore", INFO.GIT_IGNORE_MSG, "utf8");
+  appendFileSync(".gitignore", "\n", "utf8");
+  appendFileSync(".gitignore", Const.envFileName, "utf8");
+  appendFileSync(".gitignore", "\n", "utf8");
 }
 
-module.exports = validateGitIgnore;
+export default validateGitIgnore;

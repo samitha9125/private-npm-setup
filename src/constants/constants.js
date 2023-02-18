@@ -1,10 +1,14 @@
+const data = [
+  `USERNAME=\n`,
+  `PERSONAL_ACCESS_TOKEN=\n`,
+  `PRIVATE_REGISTRY_URL=\n`,
+  `SCOPE=\n`,
+].join("");
+
 const CONSTANTS = {
-  username: "GITLAB_USERNAME",
-  pToken: "GITLAB_PERSONAL_ACCESS_TOKEN",
-  regUrl: "PRIVATE_REGISTRY_URL",
-  scope: "SCOPE",
+  fields: data,
   envFileName: ".env.personal",
   npmrcFileName: ".npmrc",
 };
 
-module.exports = CONSTANTS;
+export default CONSTANTS;

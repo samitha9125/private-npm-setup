@@ -1,11 +1,15 @@
-const os = require("os");
-const path = require("path");
+import { platform, homedir } from "os";
+import { join } from "path";
 
 function getOSBasedNPMRCPath() {
-  if (os.platform() === "win32") {
-    return path.join(process.env.USERPROFILE.replace(/\/$/, ""), "/.npmrc");
+  if (platform() === "win32") {
+    return join(process.env.USERPROFILE.replace(/\/$/, ""), "/.npmrc");
   }
-  return path.join(os.homedir().replace(/\/$/, ""), "/.npmrc");
+  return join(homedir().replace(/\/$/, ""), "/.npmrc");
 }
 
-module.exports = { getOSBasedNPMRCPath };
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export { getOSBasedNPMRCPath, sleep };

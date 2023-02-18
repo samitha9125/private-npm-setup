@@ -1,8 +1,7 @@
-const fs = require("fs");
-const COLORS = require("./constants/colors");
-
-const { NPM_USR_RC_CONTENT } = require("./constants/messages");
-const { getOSBasedNPMRCPath } = require("./helpers/index.js");
+import { existsSync, writeFileSync, readFileSync } from "fs";
+import { NPM_USR_RC_CONTENT } from "./constants/messages.js";
+import { getOSBasedNPMRCPath } from "./helpers/index.js";
+import logger from "./helpers/logger.js";
 
 function manageNPMRC(token, url, scope, remove = false) {
   const domain = url.replace(/^https?:\/\//, "");
@@ -11,11 +10,11 @@ function manageNPMRC(token, url, scope, remove = false) {
 
 function manageUserLevelNPMRC(token, scope, url, domain, remove) {
   const npmrcPath = getOSBasedNPMRCPath();
-  if (!fs.existsSync(npmrcPath)) {
-    fs.writeFileSync(npmrcPath, "", "utf8");
+  if (!existsSync(npmrcPath)) {
+    writeFileSync(npmrcPath, "", "utf8");
   }
 
-  if(remove) {
+  if (remove) {
     // Forcing just to remove the entry
     cleanNPMRC(npmrcPath, scope, domain);
     return null;
@@ -28,24 +27,21 @@ function manageUserLevelNPMRC(token, scope, url, domain, remove) {
     content = content.replace("{{URL}}", url);
     content = content.replace("{{TOKEN}}", token);
 
-    let data = fs.readFileSync(npmrcPath, "utf8");
+    let data = readFileSync(npmrcPath, "utf8");
     data = data.concat(`\n${content}`);
     data = data
       .split("\n")
       .filter((l) => l !== "")
       .join("\n");
-    fs.writeFileSync(npmrcPath, data, "utf8");
+    writeFileSync(npmrcPath, data, "utf8");
   } catch (err) {
-    console.log(
-      COLORS.Red,
-      `Error modifying ${npmrcPath}. Error: ${err.message}`
-    );
+    logger.error(`Error modifying ${npmrcPath}. Error: ${err.message}`);
     process.exit(1);
   }
 }
 
-function cleanNPMRC(path, scope, domain) {
-  const data = fs.readFileSync(path, "utf8");
+async function cleanNPMRC(path, scope, domain) {
+  const data = readFileSync(path, "utf8");
 
   // define the regex patterns
   const regexPat1 = new RegExp(`@${scope}:registry=.*`, "g");
@@ -53,8 +49,8 @@ function cleanNPMRC(path, scope, domain) {
 
   if (regexPat1.test(data) && regexPat2.test(data)) {
     const updatedData = data.replace(regexPat1, "").replace(regexPat2, "");
-    fs.writeFileSync(path, updatedData);
+    writeFileSync(path, updatedData);
   }
 }
 
-module.exports = manageNPMRC;
+export default manageNPMRC;
