@@ -42,3 +42,8 @@ jobs:
         with:
           coverageLocations: |
             ${{github.workspace}}/coverage/clover.xml:clover
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
