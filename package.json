@@ -4,6 +4,10 @@
   "description": "NPM package to setup the project to access private npm repository",
   "main": "index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samitha9125/private-npm-setup.git"
+  },
   "bin": {
     "private-npm-setup": "cli.js"
   },
