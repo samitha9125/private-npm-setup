@@ -28,7 +28,7 @@ test.serial("validateFields function test - Empty", async (t) => {
   // Setting the fresh .env.personal file.
   exitStub = sinon.stub(process, "exit");
   await removeEnvPersonal(testEnvPath);
-  await execa("yarn", ["start"]);
+  manageEnvFile(testEnvPath);
 
   // Without completing the file, executing the package again.
   validateFields(testEnvPath);
@@ -40,7 +40,7 @@ test.serial("validateFields function test - Not Empty", async (t) => {
   // Setting the fresh .env.personal file.
   await removeEnvPersonal(testEnvPath);
   exitStub = sinon.stub(process, "exit");
-  await execa("yarn", ["start"]);
+  manageEnvFile(testEnvPath);
 
   // Adding new values after dotenv config.
   dotenv.config({ path: `${process.cwd()}/.env.personal` });
