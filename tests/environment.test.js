@@ -26,11 +26,11 @@ test.serial(
 
 test.serial("validateFields function test - Empty", async (t) => {
   // Setting the fresh .env.personal file.
+  exitStub = sinon.stub(process, "exit");
   await removeEnvPersonal(testEnvPath);
   await execa("yarn", ["start"]);
 
   // Without completing the file, executing the package again.
-  exitStub = sinon.stub(process, "exit");
   validateFields(testEnvPath);
   // Check that the command exited with code 1
   t.pass(exitStub.calledOnceWith(1));
@@ -39,6 +39,7 @@ test.serial("validateFields function test - Empty", async (t) => {
 test.serial("validateFields function test - Not Empty", async (t) => {
   // Setting the fresh .env.personal file.
   await removeEnvPersonal(testEnvPath);
+  exitStub = sinon.stub(process, "exit");
   await execa("yarn", ["start"]);
 
   // Adding new values after dotenv config.
