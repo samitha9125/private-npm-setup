@@ -11,6 +11,8 @@ Package will automatically add `.env.personal` to gitignore since it contains pe
 Tested with Verdaccio v5 npm registries.
 Any node project can utilize this package.
 
+Supported Node Engines: `>=14.19 <15 || >=16.15 <17 || >=18`
+
 # Usage
 
 ```
