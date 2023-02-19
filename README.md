@@ -1,5 +1,11 @@
 # Private NPM Setup
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/33e8a8415312fbc7904d/maintainability)](https://codeclimate.com/github/samitha9125/private-npm-setup/maintainability)
+[![codecov](https://codecov.io/gh/samitha9125/private-npm-setup/branch/master/graph/badge.svg?token=BBS3P54RCK)](https://codecov.io/gh/samitha9125/private-npm-setup)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/33e8a8415312fbc7904d/test_coverage)](https://codeclimate.com/github/samitha9125/private-npm-setup/test_coverage)
+[![Known Vulnerabilities](https://snyk.io/test/github/samitha9125/private-npm-setup/badge.svg)](https://snyk.io/test/github/samitha9125/private-npm-setup)
+![Master Flow](https://github.com/samitha9125/private-npm-setup/actions/workflows/main.yml/badge.svg)
+
 Introducing a new npm package designed to simplify access to custom private repositories. The package offers a simple solution for setting up access, automatically creating a `.env.personal` file to securely store confidential information such as username and password.
 
 # Security
