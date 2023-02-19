@@ -33,7 +33,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{github.workspace}}/coverage/clover.xml
+          files: ${{github.workspace}}/coverage/lcov.info
 
       - name: Upload coverage to Code Climate
         uses: paambaati/codeclimate-action@v3.2.0
