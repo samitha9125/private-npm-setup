@@ -1,6 +1,7 @@
 import test from "ava";
 import sinon from "sinon";
 import fs from "fs";
+import os from "os";
 import { execa } from "execa";
 import manageNPMRC from "../src/npmrc.js";
 
@@ -50,4 +51,31 @@ test.serial("manageNPMRC - remove existing entry", async (t) => {
   manageNPMRC(token, url, scope, true);
   const stats = fs.statSync(filePath);
   t.pass(stats.size === 0);
+});
+
+test.serial("manageNPMRC - Missing npmrc in Linux based OS", async (t) => {
+  sinon.stub(process, "platform").value("linux");
+  sinon.stub(os, "homedir").value(`${process.cwd()}/tests/environment`);
+
+  // Removing the file
+  const filePath = `${process.cwd()}/tests/environment/.npmrc`;
+  await execa("rm", ["-rf", filePath]);
+  const token = "mocked-token";
+  const url = "https://www.google.com";
+  const scope = "sample";
+  manageNPMRC(token, url, scope);
+  t.pass(fs.existsSync(`${process.env.USERPROFILE}/.npmrc`));
+});
+
+test.serial("manageNPMRC - Exists npmrc in Linux based OS", async (t) => {
+  sinon.stub(process, "platform").value("linux");
+  sinon.stub(os, "homedir").value(`${process.cwd()}/tests/environment`);
+
+  // Create the file.
+  await execa("touch", [`${process.cwd()}/tests/environment/.npmrc`]);
+  const token = "mocked-token";
+  const url = "https://www.google.com";
+  const scope = "sample";
+  manageNPMRC(token, url, scope);
+  t.pass(fs.existsSync(`${process.env.USERPROFILE}/.npmrc`));
 });
