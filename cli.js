@@ -10,7 +10,6 @@ const pkg = JSON.parse(readFileSync("./package.json", "utf8"));
 const spinner = ora("Running...\n");
 spinner.color = "green";
 
-program.version(pkg.version).description(pkg.description);
 program
   .option(
     "-r, --remove",
@@ -24,6 +23,8 @@ program
     }
     spinner.start();
   })
+  .version(pkg.version)
+  .description(pkg.description)
   .parse(process.argv);
 
 main(program, spinner);
