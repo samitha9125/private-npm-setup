@@ -9,7 +9,7 @@
     "url": "git+https://github.com/samitha9125/private-npm-setup.git"
   },
   "bin": {
-    "private-npm-setup": "cli.js"
+    "private-npm-setup": "node cli.js"
   },
   "scripts": {
     "deploy": "npm version patch && npm pack && npm publish",
