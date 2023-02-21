@@ -10,9 +10,8 @@ const pkg = JSON.parse(readFileSync("./package.json", "utf8"));
 const spinner = ora("Running...\n");
 spinner.color = "green";
 
+program.version(pkg.version).description(pkg.description);
 program
-  .version(pkg.version)
-  .description(pkg.description)
   .option(
     "-r, --remove",
     "Remove the entire entry from the user level .npmrc file",
