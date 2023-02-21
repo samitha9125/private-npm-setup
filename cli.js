@@ -24,7 +24,6 @@ program
     spinner.start();
   })
   .version(pkg.version)
-  .description(pkg.description)
   .parse(process.argv);
 
 main(program, spinner);
