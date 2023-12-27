@@ -17,7 +17,7 @@
     "test": "c8 ava"
   },
   "dependencies": {
-    "axios": "^1.2.2",
+    "axios": "^1.6.3",
     "commander": "^10.0.0",
     "dotenv": "^16.1.0",
     "ora": "^6.1.2"
